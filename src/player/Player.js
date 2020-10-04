@@ -9,27 +9,13 @@ export default class Player extends React.Component {
 
   constructor(props) {
     super(props);
-    this.artist = undefined;
-    this.title = undefined;
-    this.progress = 0;
-    this.album = undefined;
-    this.cover_art = undefined;
     this.state = {}
   }
 
   componentDidMount() {
     if (window.playerEvents === undefined) window.playerEvents = new EventEmitter();
+    
     window.playerEvents.on('stateChange', state => this.setState(state)); 
-    // this.interval = setInterval(() => {
-    //   const s = window.getSpotifyState();
-    //   if (s === null) { return }
-    //   this.setState({
-    //     artist: s.track_window.current_track.artists[0].name,
-    //     title: s.track_window.current_track.name,
-    //     album: s.track_window.current_track.album.name,
-    //     cover_art: s.track_window.current_track.album.images[2].url
-    //   })
-    // }, 1000)
   }
 
   componentWillUnmount() {
@@ -38,16 +24,18 @@ export default class Player extends React.Component {
 
   render() {
     return (
-      <div className="Player">
-        <center>
-          <h1>{this.state.title}</h1>
-          <h2>{this.state.artist}</h2>
+      <div className="Player row">
+        <center className="currentTrack col-xs">
+          <h1>{this.state.title ? this.state.title : 'Song'}</h1>
+          <h2>{this.state.artist ? this.state.artist : 'Artist'}</h2>
           <div className="coverArtBox">
             <img className="coverArt" src={this.state.cover_art ? this.state.cover_art : this.ALT_COVER_ART} alt='cover art'></img>  
           </div>
-          <h2>{this.state.album}</h2>
+          <h2 className="albumTitle">{this.state.album ? this.state.album : 'Album'}</h2>
         </center>
-        <SpotifyWebPlayback />
+        <div className="playbackHelpers">
+          <SpotifyWebPlayback />
+        </div>
       </div>
     )
   }
