@@ -24,8 +24,8 @@ export default class Player extends React.Component {
 
   render() {
     return (
-      <div className="Player row">
-        <center className="currentTrack col-xs">
+      <div className="Player">
+        <center className="currentTrack">
           <h1>{this.state.title ? this.state.title : 'Song'}</h1>
           <h2>{this.state.artist ? this.state.artist : 'Artist'}</h2>
           <div className="coverArtBox">
@@ -33,6 +33,24 @@ export default class Player extends React.Component {
           </div>
           <h2 className="albumTitle">{this.state.album ? this.state.album : 'Album'}</h2>
         </center>
+        <div className="additionalInformation">
+          
+          <div className="topInformation">
+            <div className="addedBy">
+              <h3>Added by: {this.state.addedBy ? this.state.addedBy : 'unknown'}</h3>
+            </div>
+          </div>
+
+          <div className="bottomInformation">
+            <div className="timeLeft">
+              <h3>{this.state.timeLeft ? this.state.timeLeft : 0}</h3>
+            </div>
+
+            <div className="songLength">
+              <h3>{this.state.length ? this.state.length : 0}</h3>
+            </div>
+          </div>
+        </div>
         <div className="playbackHelpers">
           <SpotifyWebPlayback />
         </div>

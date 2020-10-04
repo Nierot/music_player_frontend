@@ -1,5 +1,6 @@
 .Player {
     margin: 3rem;
+    position: relative;
 }
 
 h1 {
@@ -12,18 +13,50 @@ h2 {
     margin: 2vh;
 }
 
-.albumTitle {
+h3 {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.additionalInformation {
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.additionalInformation.topInformation {
+    right: 100%;
+
+}
+
+.additionalInformation.bottomInformation {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.currentTrack {
+    position: relative;
+    z-index: 1;
+}
+
+.currentTrack.albumTitle {
     margin: 3vh;
 }
 
-.coverArt {
+.currentTrack.coverArt {
     max-width: 100%;
     max-height: 100vh;
     margin: auto;
 }
 
-.coverArtBox {
+.currentTrack.coverArtBox {
     display: grid;
-    height: 38%;
-    width: 38%;
+    height: 40%;
+    width: 40%;
 }
