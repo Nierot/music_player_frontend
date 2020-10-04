@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       <Router>
         <div>
-          <nav>
+          {/* <nav>
             <ul>
               <li>
                 <Link to="/">Home</Link>
@@ -17,7 +17,7 @@ function App() {
                 <Link to="/player">Player</Link>
               </li>
             </ul>
-          </nav>
+          </nav> */}
 
           <Switch>
             <Route path="/player">

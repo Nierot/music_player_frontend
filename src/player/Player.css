@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    margin: 5px;
+}
+
+h2 {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    margin: 10px;
+}
+
+.Player {
+    margin: 3rem;
+}
+
+.coverArt {
+    max-width: 100%;
+    max-height: 100vh;
+    margin: auto;
+}
+
+.coverArtBox {
+    display: grid;
+    height: 38%;
+    width: 38%;
+}
