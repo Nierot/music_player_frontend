@@ -10,7 +10,7 @@ export default class SpotifyWebPlayback extends React.Component {
   componentDidMount() {
     window.onSpotifyWebPlaybackSDKReady = () => {
       const Spotify = window.Spotify;
-      const token = 'BQAnGTYba6SBBo1nuLOYTTmF0Skl4yUX1xe9BM9BIb0Vyjb3fFYyOGg-bc9vz0ejtFU2B1ufiH1tLi04xab7o6qsyOj14yTXPdkVEXAzT5kUvw_SDQT2N1rXM4m5n41kaTaPHW93JVkIomPijYcB5J3tNtawrj_J5WM0VLYpRFoEJdNyfSajEOxVlYQ3';
+      const token = 'BQBWfQKi7uc8IDYj2o9nF7EqBQneEj6S3z7Y-cOKO9WJlMRoPuK5l21TUFEalk48pyoXUHpoXHLZXcW0nS9r3-tFZye8el5zLlwESB7rlP1u-fHZ04QzjbxG8U5Xl_TYM7vyuKCL4xOtUlFvCw80qyyHKa_GVIsbMrT8njNueB3CfUbrO81bW1mxQSTh';
       const player = new Spotify.Player({
         name: 'Epic Web Player',
         getOAuthToken: cb => { cb(token); }

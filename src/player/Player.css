@@ -26,13 +26,17 @@ h3 {
     left: 0;
     display: flex;
     flex-wrap: wrap;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
 }
 
-.additionalInformation.topInformation {
-    right: 100%;
+/* Maybe split additionalInformation into two flexboxes */
 
+.additionalInformation.topInformation {
+    /* display: flex;
+    flex-direction: row;
+    justify-content: space-between; */
+    align-self: flex-end;
 }
 
 .additionalInformation.bottomInformation {

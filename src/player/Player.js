@@ -36,6 +36,7 @@ export default class Player extends React.Component {
         <div className="additionalInformation">
           
           <div className="topInformation">
+            <div className="topLeft"></div>
             <div className="addedBy">
               <h3>Added by: {this.state.addedBy ? this.state.addedBy : 'unknown'}</h3>
             </div>
