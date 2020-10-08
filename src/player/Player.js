@@ -44,7 +44,6 @@ export default class Player extends React.Component {
               <h3>Added by: {this.state.addedBy ? this.state.addedBy : 'unknown'}</h3>
             </div>
           </div>
-
           <div className="bottomInformation">
             <div className="spacing"></div>
             <div className="spacing"></div>
@@ -67,11 +66,11 @@ export default class Player extends React.Component {
             <div className="spacing"></div>
             <div className="spacing"></div>
           </div>
-          <div className="playbackHelpers">
-            <SpotifyWebPlayback />
-          </div>
         </div>
-        <div className="spaceing"></div>
+        <div className="playbackHelpers">
+          <SpotifyWebPlayback />
+        </div>
+        <div className="spacing"></div>
       </div>
     )
   }

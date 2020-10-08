@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400&display=swap');
+
 .Player {
     margin-left: 3vw;
     margin-top: 3vh;
@@ -17,27 +19,33 @@
     align-self: center;
 }
 
+h1,h2,h3 {
+    font-family: 'Balsamiq Sans', cursive;
+    /* font-family: 'Chilanka', cursive; */
+    /* font-family: 'Raleway', sans-serif; */
+}
+
 h1 {
-    font-family: "Comic Sans MS", cursive, sans-serif;
     margin: 5px;
+    font-size: 3rem;
 }
 
 h2 {
-    font-family: "Comic Sans MS", cursive, sans-serif;
     margin: 2vh;
+    font-size: 1.8rem;
 }
 
 h3 {
-    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 1.35rem;
 }
 
 .topInformation {
     position: absolute;
     z-index: 2;
-    width: 100%;
+    width: 89vw;
     height: 50%;
     top: 0;
-    left: 0;
+    left: 3vw;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -48,8 +56,8 @@ h3 {
     position: absolute;
     z-index: 2;
     width: 100%;
-    height: 5%;
-    top: 87%;
+    height: 1%;
+    top: 74vh;
     left: 0;
     display: flex;
     justify-content: space-evenly;
