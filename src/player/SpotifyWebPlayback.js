@@ -10,7 +10,7 @@ export default class SpotifyWebPlayback extends React.Component {
   componentDidMount() {
     window.onSpotifyWebPlaybackSDKReady = () => {
       const Spotify = window.Spotify;
-      const token = 'BQBWfQKi7uc8IDYj2o9nF7EqBQneEj6S3z7Y-cOKO9WJlMRoPuK5l21TUFEalk48pyoXUHpoXHLZXcW0nS9r3-tFZye8el5zLlwESB7rlP1u-fHZ04QzjbxG8U5Xl_TYM7vyuKCL4xOtUlFvCw80qyyHKa_GVIsbMrT8njNueB3CfUbrO81bW1mxQSTh';
+      const token = 'BQC7DxqEa3IrQKIk2GbGf9_F5bUx4LosNeAAsCKOhHdHEw7ZoKW_AYxhYBzrcpj4U7DiL22gkhu1U0U6ZT2aVG62gnlQIxJwoU4oVHZ-idtLmWT7dsoK6i8htMsi3LCB917r8SpDNjyhPGqWCssXPeWxyQwQpODaooJPVo8fAb7wCeNhW-WrCsHo6-Xt';
       const player = new Spotify.Player({
         name: 'Epic Web Player',
         getOAuthToken: cb => { cb(token); }
@@ -25,13 +25,20 @@ export default class SpotifyWebPlayback extends React.Component {
       // Playback status updates
       player.addListener('player_state_changed', s => {
         console.log(s);
+        window.playerEvents.emit('pause', {
+          paused: s.paused,
+          time: parseInt(s.position/1000)
+        });
+
         window.playerEvents.emit('stateChange', {
           artist: s.track_window.current_track.artists[0].name,
           title: s.track_window.current_track.name,
           album: s.track_window.current_track.album.name,
           cover_art: s.track_window.current_track.album.images[2].url,
           type: 'spotify',
-          typeId: s.track_window.current_track.uri
+          length: s.duration,
+          typeId: s.track_window.current_track.uri,
+          paused: s.paused
         });
       });
 

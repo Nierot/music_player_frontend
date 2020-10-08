@@ -1,21 +1,25 @@
 import React from 'react';
 import SpotifyWebPlayback from './SpotifyWebPlayback';
-import EventEmitter from 'events'
 import './Player.css';
+import Timer from './Timer';
+import parseTime from '../core';
 
 export default class Player extends React.Component {
 
   ALT_COVER_ART = 'https://cdn.nierot.com/memes/missing.jpg';
+
+    //TODO Vertical centering!!!!!
+
 
   constructor(props) {
     super(props);
     this.state = {}
   }
 
-  componentDidMount() {
-    if (window.playerEvents === undefined) window.playerEvents = new EventEmitter();
-    
-    window.playerEvents.on('stateChange', state => this.setState(state)); 
+  componentDidMount() {    
+    window.playerEvents.on('stateChange', s => {
+      this.setState(s);
+    });
   }
 
   componentWillUnmount() {
@@ -23,6 +27,9 @@ export default class Player extends React.Component {
   }
 
   render() {
+    //TODO Vertical centering!!!!!
+    //TODO Multiple Artists
+    //TODO auto scale cover art size with css vw
     return (
       <div className="Player">
         <center className="currentTrack">
@@ -33,24 +40,34 @@ export default class Player extends React.Component {
           </div>
           <h2 className="albumTitle">{this.state.album ? this.state.album : 'Album'}</h2>
         </center>
-        <div className="additionalInformation">
-          
-          <div className="topInformation">
-            <div className="topLeft"></div>
-            <div className="addedBy">
-              <h3>Added by: {this.state.addedBy ? this.state.addedBy : 'unknown'}</h3>
-            </div>
+        <div className="topInformation">
+          <div className="topLeft"></div>
+          <div className="addedBy">
+            <h3>Added by: {this.state.addedBy ? this.state.addedBy : 'unknown'}</h3>
           </div>
+        </div>
 
-          <div className="bottomInformation">
-            <div className="timeLeft">
-              <h3>{this.state.timeLeft ? this.state.timeLeft : 0}</h3>
-            </div>
-
-            <div className="songLength">
-              <h3>{this.state.length ? this.state.length : 0}</h3>
-            </div>
+        <div className="bottomInformation">
+          <div className="spacing"></div>
+          <div className="spacing"></div>
+          <div className="spacing"></div>
+          <div className="spacing"></div>
+          <div className="timeLeft">
+            <h3><Timer /></h3>
           </div>
+          <div className="spacing"></div>
+          <div className="spacing"></div>
+          <div className="spacing"></div>
+          <div className="spacing"></div>
+          <div className="spacing"></div>
+          <div className="spacing"></div>
+          <div className="songLength">
+            <h3>{this.state.length ? parseTime(Math.round(this.state.length/1000)) : '3:50'}</h3>
+          </div>
+          <div className="spacing"></div>
+          <div className="spacing"></div>
+          <div className="spacing"></div>
+          <div className="spacing"></div>
         </div>
         <div className="playbackHelpers">
           <SpotifyWebPlayback />

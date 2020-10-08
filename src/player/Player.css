@@ -17,7 +17,7 @@ h3 {
     font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
-.additionalInformation {
+/* .additionalInformation {
     position: absolute;
     z-index: 2;
     width: 100%;
@@ -28,18 +28,30 @@ h3 {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-}
+} */
 
 /* Maybe split additionalInformation into two flexboxes */
 
-.additionalInformation.topInformation {
-    /* display: flex;
+.topInformation {
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 50%;
+    top: 0;
+    left: 0;
+    display: flex;
     flex-direction: row;
-    justify-content: space-between; */
+    justify-content: space-between;
     align-self: flex-end;
 }
 
-.additionalInformation.bottomInformation {
+.bottomInformation {
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 5%;
+    top: 87%;
+    left: 0;
     display: flex;
     justify-content: space-evenly;
 }
