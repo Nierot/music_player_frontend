@@ -24,8 +24,6 @@ export default class Timer extends React.Component {
         time: s.time,
         paused: s.paused,
       })
-      console.log(this.state);
-
       if (s.paused === true) {
         clearInterval(this.interval);
       } else {
