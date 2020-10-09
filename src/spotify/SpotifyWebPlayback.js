@@ -1,4 +1,5 @@
 import React from 'react';
+import { refreshToken } from '../lib/core';
 
 export default class SpotifyWebPlayback extends React.Component {
 
@@ -7,13 +8,20 @@ export default class SpotifyWebPlayback extends React.Component {
     this.state = undefined
   }
 
+  initializeRefreshingToken() {
+
+  }
+
   componentDidMount() {
+    if (!window.spotifyAccessTokenInterval) {
+      window.spotifyAccessTokenInterval = setInterval(() => refreshToken(), 3500000);
+    }
+
     window.onSpotifyWebPlaybackSDKReady = () => {
       const Spotify = window.Spotify;
-      const token = 'BQCS6G4fgWJYmbX9YGYomvaUiKmS-AcgkvO8dmGXbBeRvAu4DuRrbWRH3OuqSZAzX5iVtOCKiXSA4pWbz3zpF7eNU7BzLDHkbhvCS9gx2E3k7u2-3A3q7tnprTZlE-wXbfCiZGLWAqVOEGW1X7HeOYSsiM4ybPzud4qUH9Z3iiW7rhI21p1MucaD8LyW';
       const player = new Spotify.Player({
         name: 'Epic Web Player',
-        getOAuthToken: cb => { cb(token); }
+        getOAuthToken: cb => { cb(JSON.parse(localStorage.getItem('spotifyAccess')).access_token); }
       });
 
       // Error handling

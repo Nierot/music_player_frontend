@@ -1,8 +1,8 @@
 import React from 'react';
-import SpotifyWebPlayback from './SpotifyWebPlayback';
+import SpotifyWebPlayback from '../spotify/SpotifyWebPlayback';
 import './Player.css';
 import Timer from './Timer';
-import parseTime from '../core';
+import parseTime from '../lib/core';
 
 export default class Player extends React.Component {
 

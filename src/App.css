@@ -5,3 +5,8 @@ html {
     width: 100%;
     height: 100%;
 }
+
+@font-face{
+    font-family: "Comic Sans MS";
+    src: url('https://cdn.nierot.com/-/ComicSansMS3.ttf')  format('truetype');
+}

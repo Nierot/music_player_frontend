@@ -1,5 +1,5 @@
 import React from 'react';
-import parseTime from '../core';
+import parseTime from '../lib/core';
 
 export default class Timer extends React.Component {
   
