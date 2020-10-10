@@ -7,6 +7,7 @@ import { EventEmitter } from 'events';
 import SpotifyAuthentication from './spotify/SpotifyAuthentication';
 import PlaylistCreator from './playlist/PlaylistCreator';
 import CreateNewPlaylist from './playlist/CreateNewPlaylist';
+import Controller from './controller/Controller';
 
 
 class App extends React.Component {
@@ -22,11 +23,13 @@ class App extends React.Component {
         <Router>
           <Switch>
             <Route path="/player"> <Player/> </Route>
+            <Route path="/controller"> <Controller/> </Route>
             <Route path="/playlist/new"> <CreateNewPlaylist/> </Route>
             <Route path="/playlist"> <PlaylistCreator/> </Route>
             <Route path="/">
-              <a href="/player">Player</a><p/>
-              <a href="/playlist">Playlist</a><p/>
+              <a href="/player">Player</a><br/>
+              <a href="/controller">Controller</a><br/>
+              <a href="/playlist">Playlist</a><br/>
               <SpotifyAuthentication/>
             </Route>
           </Switch>

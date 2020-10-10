@@ -37,7 +37,6 @@ export default class Player extends React.Component {
               <h2>{this.state.artists ? this.state.artists : 'Artist'}</h2>
               <div className="container">
                 <div className="timeLeft"> <h3><Timer/></h3> </div>
-                {/* <div className="spacing is-invisible"> <h3>{this.state.length ? parseTime(Math.round(this.state.length/1000)) : '3:50'}</h3></div> */}
                 <div className="coverArtBox"> <img className="coverArt" src={this.state.cover_art ? this.state.cover_art : this.ALT_COVER_ART} alt='cover art'></img> </div>
                 <div className="songLength"> <h3>{this.state.length ? parseTime(Math.round(this.state.length/1000)) : '3:50'}</h3> </div>
               </div>

@@ -11,3 +11,22 @@ html {
     font-family: "Comic Sans MS";
     src: url('https://cdn.nierot.com/-/ComicSansMS3.ttf')  format('truetype');
 }
+
+h1,h2,h3 {
+    font-family: 'Comic Sans MS', cursive;
+    color: black;
+}
+
+h1 {
+    margin: 5px;
+    font-size: 3rem;
+}
+
+h2 {
+    margin: 2vh;
+    font-size: 1.8rem;
+}
+
+h3 {
+    font-size: 1.35rem;
+}
