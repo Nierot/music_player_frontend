@@ -1,26 +1,55 @@
 import React from 'react';
+import { REST } from '../settings';
+import $ from 'jquery';
+import './AskForPlayerCode.css';
 
 export default class AskForPlayerCode extends React.Component {
 
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+
+    this.submitPlayerCode = this.submitPlayerCode.bind(this)
   }
 
-  submitPlayerCode() {
+  async checkCode(input) {
+    return await fetch(REST + 'controller/check', {
+      method: 'POST',
+      body: JSON.stringify({
+        playerCode: input
+      }),
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
+  async submitPlayerCode() {
     let input = document.querySelector('#playerCodeInput').value;
-    console.log(input);
+    
+    let check = await this.checkCode(input);
+
     if (!input || input.length !== 4) {
-      alert('Not a valid player code');
+      return
+    } else if (check.status === 400) {
+      alert('Player does not exist');
     } else {
       window.controllerEvents.emit('playerCodeSubmitted', input);
     }
   }
 
+  componentDidMount() {
+    $('.AskForPlayerCode').height($('html').height())
+  }
+
   render() {
     return (
-      <center className="AskForPlayerCode">
-        <input id="playerCodeInput" type="text" placeholder="Player Code"/>
-        <button id="submitPlayerCode" onClick={this.submitPlayerCode}>Submit</button>
-      </center>
+      <div className="AskForPlayerCode">
+        <h2>Enter the code given in the top left of the player:</h2>
+        <div className="columns">
+          <input class="input column" id="playerCodeInput" type="text" placeholder="Player Code" onInput={this.submitPlayerCode}/>
+        </div>
+      </div>
     )
   }
 }

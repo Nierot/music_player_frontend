@@ -1,0 +1,6 @@
+.MP3Player {
+    visibility: hidden;
+    position: absolute;
+    top: -1;
+    left: -1;
+}

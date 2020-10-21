@@ -18,20 +18,40 @@ export default class Timer extends React.Component {
     this.setState({ timeString: parseTime(this.state.time) })
   }
 
+  changeState() {
+    if (this.state.paused === true) {
+      clearInterval(this.interval);
+    } else {
+      if (!this.interval) {
+        this.interval = setInterval(() => this.tick(), 1000);
+      }
+    }
+  }
+
   componentDidMount() {
     window.playerEvents.on('pause', s => {
       this.setState({
         time: s.time,
         paused: s.paused,
       })
-      if (s.paused === true) {
-        clearInterval(this.interval);
-      } else {
-        if (!this.interval) {
-          this.interval = setInterval(() => this.tick(), 1000);
-        }
-      }
+      this.changeState();
     });
+
+    window.playerEvents.on('controllerSkip', () => {
+      this.setState({
+        time: 0,
+        paused: false
+      })
+      this.changeState();
+    })
+
+    window.playerEvents.on('controllerPrevious', () => {
+      this.setState({
+        time: 0,
+        paused: false
+      })
+      this.changeState();
+    })
   }
 
   componentWillUnmount() {

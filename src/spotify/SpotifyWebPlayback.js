@@ -1,3 +1,4 @@
+import { data } from 'jquery';
 import React from 'react';
 import { refreshToken } from '../lib/core';
 
@@ -8,9 +9,9 @@ export default class SpotifyWebPlayback extends React.Component {
     this.state = undefined
   }
 
-  initializeRefreshingToken() {
+  // initializeRefreshingToken() {
 
-  }
+  // }
 
   componentDidMount() {
     if (!window.spotifyAccessTokenInterval) {
@@ -23,6 +24,8 @@ export default class SpotifyWebPlayback extends React.Component {
         name: 'Epic Web Player',
         getOAuthToken: cb => { cb(JSON.parse(localStorage.getItem('spotifyAccess')).access_token); }
       });
+
+      window.playerEvents.emit('spotifyReady', Spotify);
 
       // Error handling
       player.addListener('initialization_error', ({ message }) => { console.error(message); });
@@ -61,6 +64,20 @@ export default class SpotifyWebPlayback extends React.Component {
 
       // Connect to the player!
       player.connect();
+
+      // Socket.IO events
+      window.playerEvents.on('controllerPause', data => {
+        if (!data.type === 'spotify') return;
+        player.togglePlay().then(() => console.log('togglePlay'));
+      })
+      window.playerEvents.on('controllerPrevious', data => {
+        if (!data.type === 'spotify') return;
+        player.previousTrack().then(() => console.log('previousTrack'));
+      });
+      window.playerEvents.on('controllerSkip', data => {
+        if (!data.type === 'spotify') return;
+        player.nextTrack().then(() => console.log('nextTrack'));
+      });
     }
   }
 

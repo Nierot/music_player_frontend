@@ -1,0 +1,17 @@
+.ControlPanel {
+    display: flex;
+    align-items: center;
+    height: 95vh;
+}
+
+.ControlPanel.pause {
+    margin: 0 10px;
+}
+
+.ControlPanel.skip {
+    margin: 0 10px;
+}
+
+.ControlPanel.previous {
+    margin: 0 10px;
+}

@@ -24,7 +24,7 @@ export default class Controller extends React.Component {
   render() {
     return (
       <div className="Controller">
-        {this.state.code ? <ControlPanel/> : <AskForPlayerCode/>}
+        {this.state.code ? <ControlPanel playerCode={this.state.code}/> : <AskForPlayerCode/>}
       </div>
     )
   }

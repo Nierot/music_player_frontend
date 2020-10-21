@@ -15,6 +15,11 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     window.playerEvents = new EventEmitter();
+    window.state = {
+      playing: false,
+      player: undefined,
+      volume: 1.0
+    };
   }
 
   render() {
