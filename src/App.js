@@ -9,7 +9,6 @@ import PlaylistCreator from './playlist/PlaylistCreator';
 import CreateNewPlaylist from './playlist/CreateNewPlaylist';
 import Controller from './controller/Controller';
 
-
 class App extends React.Component {
 
   constructor(props) {

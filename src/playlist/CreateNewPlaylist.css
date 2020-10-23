@@ -1,0 +1,19 @@
+.CreateNewPlaylist {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    width: 100vw;
+    height: 90vh;
+    color: black;
+}
+
+.CreateNewPlaylist label {
+    color: black !important;
+}
+
+.CreateNewPlaylist .control {
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
