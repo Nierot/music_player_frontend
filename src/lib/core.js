@@ -1,3 +1,5 @@
+import { REST } from '../settings';
+
 export default function parseTime(time) {
     let seconds = time % 60;
     if (seconds < 10) seconds = '0' + seconds;
@@ -47,7 +49,7 @@ export function getQueryParam(param) {
 
 export async function refreshToken() {
 
-  await fetch('http://localhost:8080/refresh', {
+  await fetch(`${REST}refresh`, {
     method: 'POST',
     mode: 'cors',
     headers: {

@@ -5,7 +5,7 @@ import Timer from './Timer';
 import parseTime from '../lib/core';
 import $ from 'jquery';
 import io from 'socket.io-client';
-import { ALT_COVER_ART, API } from '../settings';
+import { ALT_COVER_ART, REST } from '../settings';
 import MP3Player from '../mp3/MP3Player';
 
 export default class Player extends React.Component {
@@ -15,7 +15,7 @@ export default class Player extends React.Component {
     super(props);
     this.state = {}
     if (!window.socket) {
-      window.socket = io(API, {
+      window.socket = io(REST, {
         reconnectionDelay: 1000,
         reconnection: true,
         reconnectionAttemps: 10,
