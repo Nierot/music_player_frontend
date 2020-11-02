@@ -1,0 +1,4 @@
+.listGrid {
+    display: flex;
+    flex-direction: column;
+}
