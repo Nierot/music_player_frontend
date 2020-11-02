@@ -1,0 +1,39 @@
+.AddSpotify {
+    overflow: hidden;
+}
+
+.ResultList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ResultList .pageControls {
+    display: flex;
+    justify-content: space-between;
+    min-width: 10vw;
+}
+
+.Result {
+    background-color: aliceblue;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 95vw;
+    min-width: 95vw;
+}
+
+.Result .media-content {
+    max-width: 34vw;
+    min-width: 34vw;
+    
+    max-height: 22vh;
+    min-height: 22vh;
+}
+
+.backButton {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
