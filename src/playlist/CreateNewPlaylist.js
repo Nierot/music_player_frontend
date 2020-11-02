@@ -1,7 +1,7 @@
 import React from 'react';
 import './CreateNewPlaylist.css';
 import $ from 'jquery';
-import { API } from '../settings';
+import { REST } from '../settings';
 
 export default class CreateNewPlaylist extends React.Component {
 
@@ -10,14 +10,16 @@ export default class CreateNewPlaylist extends React.Component {
     let _max = $('.maximum').val();
     let _public = $('.public').val();
     let _nameHT = $('.nameHelpText');
-    let _duplicates = $('duplicates').val();
-    let _allowSpotify = $('typesSpotify').val();
-    let _allowMP3 = $('typesMP3').val();
-    let _allowYoutube = $('typesYouTube').val();
+    let _duplicates = $('.duplicates').val();
+    let _allowSpotify = $('.typesSpotify').val();
+    let _allowMP3 = $('.typesMP3').val();
+    let _allowYoutube = $('.typesYouTube').val();
+    let _allowController = $('.allowController').val();
 
-    if (_name.val() == '') {
-      _name.addClass('is-danger')
+    if (_name.val() === '') {
+      _name.addClass('is-danger');
       _nameHT.show();
+      return;
     }
 
     _name = _name.val();
@@ -26,21 +28,28 @@ export default class CreateNewPlaylist extends React.Component {
 
     _public = _public === true ? 'public' : 'private';
 
-    fetch(`${API}playlist`, {
+    fetch(`${REST}playlist`, {
+      method: 'POST',
+      mode: 'cors',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: {
+      body: JSON.stringify({
         name: _name,
         type: _public,
-        user: '', //TODO
+        user: 'User', //TODO
         settings: {
           duplicates: _duplicates,
           allowYoutube: _allowYoutube,
           allowSpotify: _allowSpotify,
           allowMP3: _allowMP3,
-          maxLength: _max
+          maxLength: _max,
+          allowController: _allowController
         }
+      })
+    }).then(data => {
+      if (data.status === 201) {
+        window.location.replace('/playlist')
       }
     })
   }
@@ -71,7 +80,7 @@ export default class CreateNewPlaylist extends React.Component {
 
           <div className="control">
             <label className="label">
-              Maximum of songs:
+              Maximum amount of songs:
             </label>
             <div className="select">
               <select defaultValue="Unlimited" className="maximum">
@@ -86,7 +95,7 @@ export default class CreateNewPlaylist extends React.Component {
 
           <div className="control">
             <label className="checkbox">
-              <input type="checkbox" checked className="public"/> 
+              <input type="checkbox" className="public" defaultChecked/> 
               &nbsp;
               I want my playlist to be public
             </label>
@@ -94,7 +103,7 @@ export default class CreateNewPlaylist extends React.Component {
 
           <div className="control">
             <label className="checkbox">
-              <input type="checkbox" checked className="duplicates"/> 
+              <input type="checkbox" defaultChecked className="duplicates"/> 
               &nbsp;
               Allow duplicates
             </label>
@@ -102,7 +111,7 @@ export default class CreateNewPlaylist extends React.Component {
 
           <div className="control">
             <label className="checkbox">
-              <input type="checkbox" checked className="typesSpotify"/> 
+              <input type="checkbox" defaultChecked className="typesSpotify"/> 
               &nbsp;
               Allow spotify
             </label>
@@ -110,7 +119,7 @@ export default class CreateNewPlaylist extends React.Component {
 
           <div className="control">
             <label className="checkbox">
-              <input type="checkbox" checked className="typesMP3"/> 
+              <input type="checkbox" defaultChecked className="typesMP3"/> 
               &nbsp;
               Allow MP3
             </label>
@@ -118,9 +127,17 @@ export default class CreateNewPlaylist extends React.Component {
 
           <div className="control">
             <label className="checkbox">
-              <input type="checkbox" checked className="typesYouTube"/> 
+              <input type="checkbox" defaultChecked className="typesYouTube"/> 
               &nbsp;
               Allow YouTube
+            </label>
+          </div>
+
+          <div className="control">
+            <label className="checkbox">
+              <input type="checkbox" defaultChecked className="allowController"/> 
+              &nbsp;
+              Allow controller to be used.
             </label>
           </div>
 
