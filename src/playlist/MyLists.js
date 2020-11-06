@@ -1,8 +1,29 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import PlaylistView from './PlaylistView';
+import { REST } from '../settings'
+import { getUserID } from '../lib/core';
 
 export default class MyLists extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      lists: []
+    }
+  }
+
+  componentDidMount() {
+    this.getLists()
+  }
+
+  getLists() {
+    fetch(`${REST}playlist?user=${getUserID()}`)
+      .then(data => data.json())
+      .then(data => this.setState({ lists: data }))
+      .catch(console.error)
+  }
 
   back() {
     window.location.replace('/playlist');
@@ -14,7 +35,11 @@ export default class MyLists extends React.Component {
         <button className="button backButton" onClick={() => this.back()}>
           <FontAwesomeIcon icon={faArrowLeft} />
         </button>
-        <h1>MyLists</h1>
+        <br />
+        <br />
+        <br />
+        <button onClick={() => this.getLists()}>oof</button>
+        <PlaylistView lists={this.state.lists}/>
       </div>
     )
   }

@@ -1,0 +1,18 @@
+.PlaylistView {
+    overflow-y: auto;
+    height: 68vh;
+    width: 90vw;
+    display: grid;
+    grid-row-gap: 5px;
+}
+
+.PlaylistView .playlistTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.PlaylistView .playlistTitle span {
+    margin-bottom: 1em;
+}

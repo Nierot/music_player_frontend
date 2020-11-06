@@ -1,4 +1,10 @@
-.listGrid {
+.AllLists .listGrid {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.AllLists .listGrid .listSpacing {
+    visibility: hidden;
 }
