@@ -11,8 +11,8 @@ export default class PlaylistCreator extends React.Component {
     return (
       <div className="PlaylistCreator">
         <a className="button" href="/playlist/new">Create new playlist</a>
-        <a className="button" href="/playlist/me">My playlists</a>
-        <a className="button" href="/playlist/all">Public playlists</a>
+        {/* <a className="button" href="/playlist/me">My playlists</a> */}
+        <a className="button" href="/playlist/all">Playlists</a>
       </div>
     )
   }

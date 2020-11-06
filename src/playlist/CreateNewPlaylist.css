@@ -9,6 +9,10 @@
     color: black;
 }
 
+.CreateNewPlaylist h2 {
+    text-align: center;
+}
+
 .CreateNewPlaylist label {
     color: black !important;
 }

@@ -36,7 +36,7 @@ export default class CreateNewPlaylist extends React.Component {
       },
       body: JSON.stringify({
         name: _name,
-        type: _public,
+        type: _public ? 'public' : 'private',
         user: 'User', //TODO
         settings: {
           duplicates: _duplicates,
@@ -67,7 +67,7 @@ export default class CreateNewPlaylist extends React.Component {
   render() {
     return (
       <div className="CreateNewPlaylist">
-        <h1>Create a new playlist</h1>
+        <h2>Create a new playlist</h2>
         <div className="form">
 
           <div className="control">
