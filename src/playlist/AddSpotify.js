@@ -1,11 +1,11 @@
 import React from 'react';
 import $ from 'jquery';
-import { REST, SPOTIFY_SEARCH } from '../settings';
+import { SPOTIFY_SEARCH } from '../settings';
 import './AddSpotify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { getQueryParam, splitList } from '../lib/core';
-import { BackButton } from '../lib/addToPlaylist';
+import { BackButton, addSongToDatabase } from '../lib/addToPlaylist';
 
 export default class AddSpotify extends React.Component {
 
@@ -140,41 +140,6 @@ class ResultList extends React.Component {
 
 class Result extends React.Component {
 
-  addSongToDatabase() {
-    fetch(`${REST}song`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        title: this.props.title,
-        artist: this.props.artist,
-        type: 'spotify',
-        length: this.props.length,
-        typeData: {
-          id: this.props.id
-        }
-      })
-    })
-    .then(data => data.text())
-    .then(this.addSongToPlaylist)
-  }
-
-  addSongToPlaylist(songID) {
-    fetch(`${REST}playlist/song`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        playlistID: getQueryParam('p'),
-        songID: songID,
-        user: getQueryParam('n')
-      })
-    }).then(() => window.location.reload())
-    .catch(console.error)
-  }
-
   render() {
     return (
       <div className="Result box" data-id={this.props.id}>
@@ -194,7 +159,7 @@ class Result extends React.Component {
           </div>
 
           <div className="media-right">
-            <button className="button" data-id={this.props.id} onClick={() => this.addSongToDatabase()}>
+            <button className="button" data-id={this.props.id} onClick={() => addSongToDatabase(this.props, getQueryParam('p'), getQueryParam('n'), 'spotify')}>
               <FontAwesomeIcon icon={faPlus} />
             </button>
           </div>
