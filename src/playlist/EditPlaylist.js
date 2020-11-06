@@ -85,6 +85,20 @@ export default class EditPlaylist extends React.Component {
     window.location.search = uS;
   }
 
+  
+  shareLink() {
+    const uS = new URLSearchParams(window.location.search);
+    uS.delete('n');
+    return window.location.href.split('?')[0] + '?' + uS;
+  }
+
+  copyLink() {
+    let link = document.querySelector('#shareLinkInput');
+    link.select();
+    link.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+  }
+
   noName() {
     return (
       <div className="noName">
@@ -117,22 +131,24 @@ export default class EditPlaylist extends React.Component {
         {getQueryParam('n') === null ? this.noName() :
           !this.state.playlist ? this.noPlaylist() :
           <div className="editor">
-            <h1>What kind of song do you want to add?</h1>
-
-            <div className="buttonColumn columns">
-              <div className="column"></div>
-              <div className="column"></div>
-              <div className="column">
-                <button className="button" onClick={() => this.addSpotify()}>Spotify</button>
+            <h1 className="center">Add a song?</h1>
+            <br />
+            <div className="buttonColumn">
+              <div className="buttonContainer">
+                <button className="button is-link is-large" onClick={() => this.addSpotify()}>Spotify</button>            
               </div>
-              <div className="column">
-                <button className="button column" onClick={() => this.addYouTube()}>YouTube</button>
+              <div className="buttonContainer">
+                <button className="button is-link is-large" onClick={() => this.addYouTube()}>YouTube</button>
               </div>
-              <div className="column">
-                <button className="button column" onClick={() => this.addMP3()}>MP3</button>
+              <div className="buttonContainer">
+                <button className="button is-link is-large" onClick={() => this.addMP3()}>MP3</button>
               </div>
-              <div className="column"></div>
-              <div className="column"></div>
+              <div className="buttonContainer sharePlaylist">
+                <h3>Let others add to this playlist:</h3>
+                <div/>
+                <input type="text" className="input" id="shareLinkInput" defaultValue={this.shareLink()}></input>
+                <button className="button is-primary" onClick={() => this.copyLink()}>Copy</button>
+              </div>
 
             </div>
           </div>}

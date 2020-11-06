@@ -4,7 +4,8 @@ import { REST, SPOTIFY_SEARCH } from '../settings';
 import './AddSpotify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { getQueryParam } from '../lib/core';
+import { getQueryParam, splitList } from '../lib/core';
+import { BackButton } from '../lib/addToPlaylist';
 
 export default class AddSpotify extends React.Component {
 
@@ -30,26 +31,13 @@ export default class AddSpotify extends React.Component {
                                              key={item.uri} id={item.uri}
                                              length={item.duration_ms}
                                              />))
-    this.setState({ results: this.splitList(results) });
-  }
-
-  splitList(results) {
-    return results.reduce((res, val, i, arr) => {
-      if (i % 2 === 0) res.push(arr.slice(i, i + 2));
-      return res;
-    }, [])
-  }
-
-  back() {
-    window.location.href = `/playlist/edit?p=${getQueryParam('p')}`
+    this.setState({ results: splitList(results) });
   }
 
   render() {
     return (
       <div className="AddSpotify">
-        <button className="button backButton" onClick={() => this.back()}>
-          <FontAwesomeIcon icon={faArrowLeft} />
-        </button>
+        <BackButton />
         <br/>
         <center><h2>Add a Spotify song</h2></center>
         <div className="columns is-mobile">

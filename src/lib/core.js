@@ -65,3 +65,14 @@ export async function refreshToken() {
     console.log(d);
   })
 }
+
+export function splitList(results) {
+  return results.reduce((res, val, i, arr) => {
+    if (i % 2 === 0) res.push(arr.slice(i, i + 2));
+    return res;
+  }, [])
+}
+
+export function getUserID() {
+  return 'User'; //TODO
+}
