@@ -4,6 +4,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import './AllLists.css';
 import { REST } from '../settings';
 import PlaylistView from './PlaylistView';
+import LoadingScreen from '../lib/LoadingScreen';
 
 export default class AllLists extends React.Component {
 
@@ -34,7 +35,7 @@ export default class AllLists extends React.Component {
         {this.state.loading ? 
         <div className="loading">
           {this.fetchLists()}
-          <h1>Loading...</h1>
+          <LoadingScreen />
         </div> 
         :
         <div className="loaded">

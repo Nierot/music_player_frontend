@@ -5,6 +5,7 @@ import { REST } from '../settings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import $ from 'jquery';
+import LoadingScreen from '../lib/LoadingScreen';
 
 export default class EditPlaylist extends React.Component {
 
@@ -55,7 +56,7 @@ export default class EditPlaylist extends React.Component {
     return (
       <div className="noPlaylist">
         {this.state.loading ?
-          <h1>Loading..</h1>
+          <LoadingScreen />
           :
           <h1>Playlist not found</h1>
         }
