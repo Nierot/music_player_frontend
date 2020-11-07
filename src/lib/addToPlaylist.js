@@ -41,7 +41,7 @@ export function addSongToDatabase(song, playlist, user, type) {
       type: type,
       length: song.length,
       typeData: {
-        id: song.id
+        id: song.typeData.id
       }
     })
   })

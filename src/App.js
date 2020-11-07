@@ -14,6 +14,7 @@ import AddSpotify from './playlist/AddSpotify';
 import AddMP3 from './playlist/AddMP3';
 import MyLists from './playlist/MyLists';
 import AllLists from './playlist/AllLists';
+import LoadingScreen from './lib/LoadingScreen';
 
 class App extends React.Component {
 
@@ -32,6 +33,7 @@ class App extends React.Component {
       <div className="App">
         <Router>
           <Switch>
+            <Route path="/testComponent"> <LoadingScreen /> </Route>
             <Route path="/player"> <Player/> </Route>
             <Route path="/controller"> <Controller/> </Route>
             <Route path="/playlist/new"> <CreateNewPlaylist/> </Route>
