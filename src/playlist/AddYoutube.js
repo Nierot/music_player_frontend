@@ -2,6 +2,7 @@ import React from 'react';
 import { addSongToDatabase, BackButton } from '../lib/addToPlaylist';
 import './AddYoutube.css';
 import { YOUTUBE_API } from '../settings';
+import { getQueryParam } from '../lib/core';
 
 export default class AddYoutube extends React.Component {
   
@@ -57,7 +58,7 @@ export default class AddYoutube extends React.Component {
     return (
       <div className="AddYoutube">
         <BackButton />
-        <h2 className="center">Add YouTube</h2>
+        <h3 className="center">Add YouTube</h3>
         <div className="previewContainer">
           {this.state.preview ?
           <YoutubePreview video={this.state.videoPreview} remove={this.removePreview} />
@@ -97,14 +98,28 @@ class YoutubePreview extends React.Component {
   }
 
   handleAddThis() {
-    addSongToDatabase()
+    let { weeks, days, hours, minutes, seconds } = this.props.video.duration;
+    let length = weeks * 6.048e8 + days * 8.64e7 + hours * 3.6e6 + minutes * 60000 + seconds * 1000;
+    let song = {
+      title: this.props.video.title,
+      artist: this.props.video.channel.title,
+      length: length,
+      typeData: {
+        id: this.props.video.id
+      }
+    }
+    addSongToDatabase(song, getQueryParam('p'), getQueryParam('n'), 'youtube');
   }
 
   render() {
+    console.log(this.props.video)
+    let thumbnail = this.props.video.thumbnails.maxres;
+    if (!thumbnail) thumbnail = 'https://cdn.nierot.com/memes/missing.jpg'
+    else thumbnail = thumbnail.url;
     return (
       <div className="YoutubePreview">
         <p>{this.props.video.title}</p>
-        <img src={this.props.video.thumbnails.maxres.url} alt="thumbnail" />
+        <img src={thumbnail} alt="thumbnail" />
         <div className="buttonContainer">
           <button className="button is-success" onClick={this.handleAddThis}>Add this song?</button>
           &nbsp; &nbsp;
