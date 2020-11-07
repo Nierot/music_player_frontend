@@ -1,4 +1,4 @@
-@import url(https://allfont.net/allfont.css?fonts=comic-sans-ms);
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap');
 
 html {
     background-color: #4158D0;
@@ -9,8 +9,8 @@ html {
     overflow-y: hidden;
 }
 
-h1,h2,h3 {
-    font-family: 'Comic Sans MS', cursive;
+h1,h2,h3,p {
+    font-family: 'Comic Neue', cursive;
     color: black;
 }
 
@@ -34,4 +34,8 @@ h3 {
 
 .hidden {
     visibility: hidden;
+}
+
+.bold {
+    font-weight: 1000;
 }
