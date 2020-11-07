@@ -25,20 +25,17 @@ export default class Player extends React.Component {
         rejectUnauthorized: false
       });
     }
-  }
-
-  componentDidMount() {
-
-    window.playerEvents.on('stateChange', s => {
-      this.setState(s);
-      console.log(s);
-    });
-
     window.socket.on('pause', () => window.playerEvents.emit('controllerPause'));
     window.socket.on('skip', () => window.playerEvents.emit('controllerSkip'));
     window.socket.on('previous', () => window.playerEvents.emit('controllerPrevious'));
     window.socket.on('code', code => this.setState({ playerCode: code }));
+    window.playerEvents.on('stateChange', s => {
+      this.setState(s);
+      console.log(s);
+    });
+  }
 
+  componentDidMount() {
     $('.timeLeft').width($('.songLength').width());
     $('.playerCode').width($('.addedBy').width());
   }
@@ -54,8 +51,8 @@ export default class Player extends React.Component {
         <div className="PlayerContainer columns is-desktop is-vcentered">
           <div className="column">
             <center className="currentTrack">
-              <h1>{this.state.title ? this.state.title : 'Song'}</h1>
-              <h2>{this.state.artists ? this.state.artists : 'Artist'}</h2>
+              <h1 className="bold">{this.state.title ? this.state.title : 'Song'}</h1>
+              <h2 className="bold">{this.state.artists ? this.state.artists : 'Artist'}</h2>
               <div className="container">
                 <div className="timeLeft"> <h3><Timer/></h3> </div>
                 <div className="coverArtBox"> <img className="coverArt" src={this.state.cover_art ? this.state.cover_art : ALT_COVER_ART} alt='cover art'></img> </div>
