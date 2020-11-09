@@ -1,5 +1,7 @@
 import React from 'react';
-import { BackButton } from '../lib/addToPlaylist';
+import { addSongToDatabase, BackButton } from '../lib/addToPlaylist';
+import { getQueryParam } from '../lib/core';
+import { CDN } from '../settings';
 import './AddMP3.css';
 
 export default class AddMP3 extends React.Component {
@@ -13,6 +15,7 @@ export default class AddMP3 extends React.Component {
     this.onFileChange = this.onFileChange.bind(this);
     this.onFileUpload = this.onFileUpload.bind(this);
     this.onUserStupid = this.onUserStupid.bind(this);
+    this.addSong = this.addSong.bind(this);
   };
 
   onFileChange(event) {
@@ -21,20 +24,34 @@ export default class AddMP3 extends React.Component {
 
   onFileUpload() {
     
-    const form = new FormData();
+    let form = new FormData();
 
-    form.append(
-      "file",
-      this.state.selectedFile,
-      this.state.selectedFile.name
-    )
+    form.append('file', this.state.selectedFile);
 
-    console.log(this.state.selectedFile)
-    // fetch()
+    fetch(`${CDN}`, {
+      method: 'POST',
+      body: form,
+    })
+    .then(data => data.json())
+    .then(data => data.id)
+    .then(this.addSong)
+    .catch(console.error)
+  }
+
+  addSong(id) {
+    let song = {
+      title: this.state.selectedFile.name,
+      artist: 'mp3',
+      length: -1,
+      typeData: {
+        id: id
+      }
+    }
+    addSongToDatabase(song, getQueryParam('p'), getQueryParam('n'), 'mp3');
   }
 
   onUserStupid() {
-    this.setState({ selectedFile: null });
+    this.setState({ selectedFile: null });    
   }
 
   uploadBox() {
@@ -54,7 +71,7 @@ export default class AddMP3 extends React.Component {
     } else {
       return (
         <div className="upload center">
-          <input className="input is-info" type="file" onChange={this.onFileChange}/>
+          <input className="input is-info" id="mp3FileUpload" type="file" ref={this.fileInput} onChange={this.onFileChange}/>
         </div>
       )
     }

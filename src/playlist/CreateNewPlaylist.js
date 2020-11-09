@@ -7,6 +7,7 @@ export default class CreateNewPlaylist extends React.Component {
 
   createPlaylist = () => {
     let _name = $('.name');
+    let _username = $('.username').val();
     let _max = $('.maximum').val();
     let _public = $('.public').val();
     let _nameHT = $('.nameHelpText');
@@ -37,7 +38,7 @@ export default class CreateNewPlaylist extends React.Component {
       body: JSON.stringify({
         name: _name,
         type: _public ? 'public' : 'private',
-        user: 'User', //TODO
+        user: _username,
         settings: {
           duplicates: _duplicates,
           allowYoutube: _allowYoutube,
@@ -72,10 +73,17 @@ export default class CreateNewPlaylist extends React.Component {
 
           <div className="control">
             <label className="label">
-              Name:
+              Playlist name:
               <input className="input name" type="text" name="name" onClick={this.removeDanger}/>
             </label>
             <p className="help nameHelpText" hidden>Please enter a name</p>
+          </div>
+
+          <div className="control">
+            <label className="label">
+              Username:
+              <input className="input username" type="text" name="username"/>
+            </label>
           </div>
 
           <div className="control">

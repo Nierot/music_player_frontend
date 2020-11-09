@@ -30,6 +30,12 @@ export function BackButton() {
  */
 
 export function addSongToDatabase(song, playlist, user, type) {
+  let id;
+  if (type === 'spotify') {
+    id = song.id;
+  } else {
+    id = song.typeData.id;
+  }
   fetch(`${REST}song`, {
     method: 'POST',
     headers: {
@@ -41,7 +47,7 @@ export function addSongToDatabase(song, playlist, user, type) {
       type: type,
       length: song.length,
       typeData: {
-        id: song.typeData.id
+        id: id
       }
     })
   })
