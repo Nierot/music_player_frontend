@@ -15,6 +15,7 @@ import AddMP3 from './playlist/AddMP3';
 import MyLists from './playlist/MyLists';
 import AllLists from './playlist/AllLists';
 import LoadingScreen from './lib/LoadingScreen';
+import PlayPlaylist from './playlist/PlayPlaylist';
 
 class App extends React.Component {
 
@@ -43,6 +44,7 @@ class App extends React.Component {
             <Route path="/playlist/edit"> <EditPlaylist/> </Route>
             <Route path="/playlist/me"> <MyLists/> </Route>
             <Route path="/playlist/all"> <AllLists/> </Route>
+            <Route path="/playlist/play"> <PlayPlaylist /> </Route>
             <Route path="/playlist"> <PlaylistCreator/> </Route>
             <Route path="/">
               <a href="/player">Player</a><br/>

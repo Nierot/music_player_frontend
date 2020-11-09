@@ -35,7 +35,7 @@ class PlaylistItem extends React.Component {
   }
 
   play() {
-    alert('TODO')
+    window.location.replace(`/playlist/play?p=${this.props.id}`);
   }
 
   edit() {

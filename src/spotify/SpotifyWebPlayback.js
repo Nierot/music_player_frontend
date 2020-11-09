@@ -1,16 +1,29 @@
 import React from 'react';
 import { refreshToken } from '../lib/core';
+import SpotifyWebApi from 'spotify-web-api-node';
 
 export default class SpotifyWebPlayback extends React.Component {
 
+  SPOTIFY_API = 'https://api.spotify.com/v1';
+
   constructor(props) {
     super(props);
-    this.state = undefined
+    this.state = {};
+    this.spotifyApi = new SpotifyWebApi();
+    this.spotifyApi.setAccessToken(this.getAccessToken());
   }
 
-  // initializeRefreshingToken() {
+  getAccessToken() {
+    return JSON.parse(localStorage.getItem('spotifyAccess')).access_token;
+  }
 
-  // }
+  getDeviceID() {
+    return window.spotiyPlayer._options.id;
+  }
+
+  playSong(song) {
+    this.spotifyApi.play({ device_id: this.getDeviceID(), uris: [song] })
+  }
 
   componentDidMount() {
     if (!window.spotifyAccessTokenInterval) {
@@ -21,10 +34,19 @@ export default class SpotifyWebPlayback extends React.Component {
       const Spotify = window.Spotify;
       const player = new Spotify.Player({
         name: 'Epic Web Player',
-        getOAuthToken: cb => { cb(JSON.parse(localStorage.getItem('spotifyAccess')).access_token); }
+        getOAuthToken: cb => { cb(this.getAccessToken()); }
       });
 
+      window.spotiyPlayer = player;
+
       window.playerEvents.emit('spotifyReady', Spotify);
+
+      window.playerEvents.on('play', data => {
+        if (data.type === 'spotify') {
+          // this.transferPlaybackToWeb();
+          this.playSong(data.typeId);
+        }
+      })
 
       // Error handling
       player.addListener('initialization_error', ({ message }) => { console.error(message); });
@@ -53,7 +75,7 @@ export default class SpotifyWebPlayback extends React.Component {
 
       // Ready
       player.addListener('ready', ({ device_id }) => {
-        console.log('Ready with Device ID', device_id);
+        console.log('Device ready!', device_id);
       });
 
       // Not Ready
