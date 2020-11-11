@@ -7,6 +7,8 @@ import $ from 'jquery';
 import io from 'socket.io-client';
 import { ALT_COVER_ART, REST } from '../settings';
 import MP3Player from '../mp3/MP3Player';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
 
 export default class Player extends React.Component {
 
@@ -27,12 +29,14 @@ export default class Player extends React.Component {
         rejectUnauthorized: false
       });
     }
+    this.startPlaying = this.startPlaying.bind(this);
   }
 
   async startPlaying() {
     this.getNextSong()
       .then(() => {
         console.log(this.state.currentSong)
+        this.setState({ playing: true })
         window.playerEvents.emit('play', this.state.currentSong)
         switch(this.state.currentSong.type) {
           case 'spotify':
@@ -43,7 +47,7 @@ export default class Player extends React.Component {
           case 'mp3':
             break;
           default:
-            console.error('wtf');
+            console.error('wtf', this.state);
             break;
         }
       })
@@ -54,7 +58,7 @@ export default class Player extends React.Component {
     return new Promise((resolve, reject) => {
       fetch(`${REST}queue/next?p=${getQueryParam('p')}`)
         .then(data => data.json())
-        .then(data => this.setState({ songID: data.next }))
+        .then(data => this.setState({ songID: data.next.songID, addedBy: data.next.user }))
         .then(() => this.getSongInformation().then(resolve).catch(reject))
         .catch(console.error)
     })
@@ -64,7 +68,7 @@ export default class Player extends React.Component {
     return new Promise((resolve, reject) => {
       fetch(`${REST}song?song=${this.state.songID}`)
         .then(data => data.json())
-        .then(data => this.setState({ currentSong: data }))
+        .then(data => this.setState({ currentSong: data.song }))
         .then(resolve)
         .catch(reject)
     })
@@ -76,10 +80,10 @@ export default class Player extends React.Component {
     window.socket.on('skip', () => window.playerEvents.emit('controllerSkip'));
     window.socket.on('previous', () => window.playerEvents.emit('controllerPrevious'));
     window.socket.on('code', code => this.setState({ playerCode: code }));
-    window.playerEvents.on('stateChange', s => {
-      this.setState(s);
-      console.log(s);
-    });
+    // window.playerEvents.on('stateChange', s => {
+      // this.setState(s);
+      // console.log(s);
+    // });
     $('.timeLeft').width($('.songLength').width());
     $('.playerCode').width($('.addedBy').width());
   
@@ -90,20 +94,28 @@ export default class Player extends React.Component {
   }
 
   render() {
+    let coverArt;
+    if (!this.state.currentSong || !this.state.currentSong.coverArt) coverArt = ALT_COVER_ART;
+    else coverArt = this.state.currentSong.coverArt;
     return (
       <div className="Player">
-        <button onClick={() => this.startPlaying()}>Start playing!</button>
+        {this.state.playing ? null : 
+        <div className="playButton">
+          <button onClick={this.startPlaying}>
+            <FontAwesomeIcon icon={faPlay} size="6x" color="#ff0038"/>
+          </button>
+        </div>
+        } 
         <div className="PlayerContainer columns is-desktop is-vcentered">
           <div className="column">
             <center className="currentTrack">
-              <h1 className="bold">{this.state.title ? this.state.title : 'Song'}</h1>
-              <h2 className="bold">{this.state.artists ? this.state.artists : 'Artist'}</h2>
+              <h1 className="bold">{this.state.currentSong ? this.state.currentSong.title : 'Song'}</h1>
+              <h2 className="bold">{this.state.currentSong ? this.state.currentSong.artist : 'Artist'}</h2>
               <div className="container">
-                <div className="timeLeft"> <h3><Timer/></h3> </div>
-                <div className="coverArtBox"> <img className="coverArt" src={this.state.cover_art ? this.state.cover_art : ALT_COVER_ART} alt='cover art'></img> </div>
-                <div className="songLength"> <h3>{this.state.length ? parseTime(Math.round(this.state.length/1000)) : '3:50'}</h3> </div>
+                <div className="timeLeft"> <h3><Timer /></h3> </div>
+                <div className="coverArtBox"> <img className="coverArt" src={coverArt} alt="cover art"></img> </div>
+                <div className="songLength"> <h3>{this.state.currentSong ? parseTime(Math.round(this.state.currentSong.length/1000)) : '3:50'}</h3> </div>
               </div>
-              <h2 className="albumTitle">{this.state.album ? this.state.album : 'Album'}</h2>
             </center>
 
             <div className="topInformation">

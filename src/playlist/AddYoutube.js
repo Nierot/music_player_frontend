@@ -104,6 +104,7 @@ class YoutubePreview extends React.Component {
       title: this.props.video.title,
       artist: this.props.video.channel.title,
       length: length,
+      coverArt: this.props.video.thumbnails.maxres.url || 'https://cdn.nierot.com/memes/missing.jpg',
       typeData: {
         id: this.props.video.id
       }

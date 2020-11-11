@@ -43,7 +43,6 @@ export default class SpotifyWebPlayback extends React.Component {
 
       window.playerEvents.on('play', data => {
         if (data.type === 'spotify') {
-          // this.transferPlaybackToWeb();
           this.playSong(data.typeId);
         } else {
           player.pause();

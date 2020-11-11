@@ -24,6 +24,7 @@ export function BackButton() {
  * @param {number} song.length - Amount of ms a song lasts
  * @param {Object} song.typeData Additional data for this type
  * @param {string=} song.typeData.id Spotify/YouTube ID 
+ * @param {string} song.coverArt - Cover art url
  * @param {*} playlist Playlist ID to add the song to
  * @param {*} user The user that added this
  * @param {'spotify' | 'youtube' | 'mp3'} type The type of the song
@@ -46,6 +47,7 @@ export function addSongToDatabase(song, playlist, user, type) {
       artist: song.artist,
       type: type,
       length: song.length,
+      coverArt: song.coverArt,
       typeData: {
         id: id
       }

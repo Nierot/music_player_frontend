@@ -25,11 +25,13 @@ export default class AddSpotify extends React.Component {
 
   parseResults(res) {
     let results = [];
+    console.log(res)
     res.forEach(item => results.push(<Result title={item.name}
                                              artist={item.artists.map(e => e.name).join(', ')} 
                                              cover={item.album.images[1].url} 
                                              key={item.uri} id={item.uri}
                                              length={item.duration_ms}
+                                             coverArt={item.album.images[0].url}
                                              />))
     this.setState({ results: splitList(results) });
   }

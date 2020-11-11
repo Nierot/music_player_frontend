@@ -43,6 +43,7 @@ export default class AddMP3 extends React.Component {
       title: this.state.selectedFile.name,
       artist: 'mp3',
       length: -1,
+      coverArt: 'https://cdn.nierot.com/memes/missing.jpg',
       typeData: {
         id: id
       }

@@ -15,14 +15,13 @@ export default class MP3Player extends React.Component {
   }
 
   playSong(songID) {
-    console.log(this.player);
     this.player.current.src = CDN + songID + '.mp3';
     this.player.current.play();
   }
 
   componentDidMount() {
 
-    window.playerEvents.on('controllerPause', data => {
+    window.playerEvents.on('controllerPause', () => {
       this.player.current.pause();
       this.setState({
         playing: false
@@ -42,7 +41,7 @@ export default class MP3Player extends React.Component {
 
   render() {
     return (
-      <div className="MP3Player">
+      <div className="MP3Player" >
         <audio ref={this.player} />
       </div>
     )
