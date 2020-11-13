@@ -6,52 +6,31 @@ export default class Timer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: 0,
-      paused: true,
-      timeString: '0'
-    };
+      timeString: '0:00',
+      time: 0
+    }
     this.interval = undefined;
   }
 
-  tick() {
-    this.setState({ time: this.state.time + 1 })
-    this.setState({ timeString: parseTime(this.state.time) })
-  }
-
-  changeState() {
-    if (this.state.paused === true) {
-      clearInterval(this.interval);
+  componentDidUpdate() {
+    const { length, playing } = this.props;
+    if (playing) {
+      if (!this.interval) this.interval = setInterval(() => {
+        if (length === this.state.time) return;
+        this.setState({
+          time: this.state.time + 1
+        })
+        this.generateTimeString();
+      }, 1000);
     } else {
-      if (!this.interval) {
-        this.interval = setInterval(() => this.tick(), 1000);
-      }
+      this.interval = undefined;
     }
   }
 
-  componentDidMount() {
-    window.playerEvents.on('pause', s => {
-      this.setState({
-        time: s.time,
-        paused: s.paused,
-      })
-      this.changeState();
+  generateTimeString() {
+    this.setState({
+      timeString: parseTime(this.state.time)
     });
-
-    window.playerEvents.on('controllerSkip', () => {
-      this.setState({
-        time: 0,
-        paused: false
-      })
-      this.changeState();
-    })
-
-    window.playerEvents.on('controllerPrevious', () => {
-      this.setState({
-        time: 0,
-        paused: false
-      })
-      this.changeState();
-    })
   }
 
   componentWillUnmount() {
@@ -60,7 +39,10 @@ export default class Timer extends React.Component {
 
   render() {
     return (
-      <div className="Timer">{this.state.timeString}</div>
+      <div className="Timer" key={this.props.songId}>
+        {this.state.timeString}
+      </div>
+
     )
   }
 }

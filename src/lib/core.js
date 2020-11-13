@@ -6,6 +6,8 @@ export default function parseTime(time) {
     
     let minutes = Math.floor(time / 60);
 
+    if (isNaN(minutes) || isNaN(seconds)) return `0:00`;
+    
     return `${minutes}:${seconds}`;
 }
 

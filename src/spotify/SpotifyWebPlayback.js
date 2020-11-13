@@ -25,6 +25,10 @@ export default class SpotifyWebPlayback extends React.Component {
     this.spotifyApi.play({ device_id: this.getDeviceID(), uris: [song] })
   }
 
+  endOfSong() {
+    window.playerEvents.emit('finished');
+  }
+
   componentDidMount() {
     if (!window.spotifyAccessTokenInterval) {
       window.spotifyAccessTokenInterval = setInterval(() => refreshToken(), 3500000);
@@ -49,6 +53,10 @@ export default class SpotifyWebPlayback extends React.Component {
         }
       })
 
+      window.playerEvents.on('stop', () => {
+        player.pause();
+      })
+
       // Error handling
       player.addListener('initialization_error', ({ message }) => { console.error(message); });
       player.addListener('authentication_error', ({ message }) => { console.error(message); });
@@ -57,21 +65,16 @@ export default class SpotifyWebPlayback extends React.Component {
 
       // Playback status updates
       player.addListener('player_state_changed', s => {
-        window.playerEvents.emit('pause', {
-          paused: s.paused,
-          time: parseInt(s.position/1000)
-        });
+        if (!s) return;
+        
+        if (this.state && 
+            s.track_window.previous_tracks.find(x => x.id === s.track_window.current_track.id) &&
+            !this.state.paused &&
+            s.paused) {
+          this.endOfSong();
+        }
 
-        window.playerEvents.emit('stateChange', {
-          artists: s.track_window.current_track.artists.map(a => a.name).join(', '),
-          title: s.track_window.current_track.name,
-          album: s.track_window.current_track.album.name,
-          cover_art: s.track_window.current_track.album.images[2].url,
-          type: 'spotify',
-          length: s.duration,
-          typeId: s.track_window.current_track.uri,
-          paused: s.paused
-        });
+        this.setState(s);
       });
 
       // Ready
