@@ -1,0 +1,25 @@
+.PlayPlaylist {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vw;
+    width: 100vw;
+}
+
+.PlayPlaylist .wantEvents {
+    margin: 10px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.PlayPlaylist .wantEvents textarea {
+    align-self: center;
+}
+
+.PlayPlaylist button {
+    margin: 10px
+}
