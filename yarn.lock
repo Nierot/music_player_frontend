@@ -11340,6 +11340,11 @@ wide-align@^1.1.0:
   dependencies:
     string-width "^1.0.2 || 2"
 
+winwheel@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/winwheel/-/winwheel-1.0.1.tgz#6580cdee936469749caf19cd4071bd548eb466ac"
+  integrity sha1-ZYDN7pNkaXScrxnNQHG9VI60Zqw=
+
 word-wrap@~1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/word-wrap/-/word-wrap-1.2.3.tgz#610636f6b1f703891bd34771ccb17fb93b47079c"
