@@ -84,8 +84,8 @@ export default class SpotifyAuthentication extends React.Component {
 
   render() {
     return (
-      <div className="SpotifyAuthentication">
-        <button onClick={this.redirectToSpotify}>Login with Spotify</button>
+      <div className={`SpotifyAuthentication ${this.props.className}`} >
+        <button className="button is-info" onClick={this.redirectToSpotify}>Login with Spotify</button>
       </div>
     )
   }

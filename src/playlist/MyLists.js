@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import PlaylistView from './PlaylistView';
 import { REST } from '../settings'
-import { getUserID } from '../lib/core';
 
 export default class MyLists extends React.Component {
 
@@ -19,7 +18,7 @@ export default class MyLists extends React.Component {
   }
 
   getLists() {
-    fetch(`${REST}playlist?user=${getUserID()}`)
+    fetch(`${REST}playlist?user=${'oof'}`)
       .then(data => data.json())
       .then(data => this.setState({ lists: data }))
       .catch(console.error)

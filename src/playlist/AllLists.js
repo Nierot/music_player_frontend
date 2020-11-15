@@ -21,7 +21,6 @@ export default class AllLists extends React.Component {
     fetch(`${REST}playlist/all`)
       .then(data => data.json())
       .then(data => this.setState({ loading: false, lists: data }))
-      .then(() => console.log(this.state))
   }
 
 

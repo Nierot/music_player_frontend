@@ -1,0 +1,32 @@
+.PlaylistCreator {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 2fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    height: 100vh;
+}
+
+.PlaylistCreator .Link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.PlaylistCreator #title {
+    grid-column: 3;
+}
+
+.PlaylistCreator #new {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.PlaylistCreator #all {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.PlaylistCreator #my {
+    grid-column: 4;
+    grid-row: 2;
+}
