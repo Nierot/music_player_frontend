@@ -7,15 +7,16 @@ export default class Timer extends React.Component {
     super(props);
     this.state = {
       timeString: '0:00',
-      time: 0
+      time: 0,
     }
     this.interval = undefined;
+
   }
 
-  componentDidUpdate() {
+  initiateInterval() {
     const { length, playing } = this.props;
     if (playing) {
-      if (!this.interval) this.interval = setInterval(() => {
+      if (this.interval === undefined) this.interval = setInterval(() => {
         if (length === this.state.time) return;
         this.setState({
           time: this.state.time + 1
@@ -23,8 +24,16 @@ export default class Timer extends React.Component {
         this.generateTimeString();
       }, 1000);
     } else {
-      this.interval = undefined;
+      this.interval = null;
     }
+  }
+
+  componentDidUpdate() {
+    this.initiateInterval();
+  }
+
+  componentDidMount() {
+    this.initiateInterval();
   }
 
   generateTimeString() {
@@ -35,11 +44,12 @@ export default class Timer extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.interval);
+    this.interval = undefined;
   }
 
   render() {
     return (
-      <div className="Timer" key={this.props.songId}>
+      <div className="Timer">
         {this.state.timeString}
       </div>
 
