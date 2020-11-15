@@ -75,6 +75,6 @@ export function splitList(results) {
   }, [])
 }
 
-export function getUserID() {
-  return 'User'; //TODO
+export function rand(min, max) {
+  return Math.floor(Math.random() * (max + 1)) + min;
 }
