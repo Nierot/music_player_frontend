@@ -41,6 +41,11 @@ export default class MP3Player extends React.Component {
     window.playerEvents.on('stop', () => {
       this.player.current.pause();
     })
+
+    this.player.current.addEventListener('ended', () => {
+      this.player.current.currentTime = 0;
+      window.playerEvents.emit('finished');
+    });
   }
 
   render() {
