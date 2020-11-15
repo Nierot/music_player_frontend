@@ -1,5 +1,5 @@
 import React from 'react';
-import ParticleExplosion from './ParticleExplosion';
+import Particles from './Particles';
 import './AdtRadEvent.css';
 import Winwheel from 'winwheel';
 import { EventEmitter } from 'events';
@@ -93,7 +93,7 @@ export default class AdtRadEvent extends React.Component {
         <div className="adtRad">
           <canvas id="adtRadCanvas" width='800' height='800'></canvas>
         </div>
-        <ParticleExplosion />
+        <Particles />
       </div>
     )
   }

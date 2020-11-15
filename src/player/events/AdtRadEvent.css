@@ -3,3 +3,11 @@
     justify-content: center;
     align-items: center;
 }
+
+.AdtRadEvent .adtRad {
+    z-index: 10;
+}
+
+.AdtRadEvent .tsparticles-canvas-el {
+    z-index: 5;
+}
