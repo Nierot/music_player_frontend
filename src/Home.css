@@ -6,6 +6,12 @@
     width: 100vw;
 }
 
+@media only screen and (max-width: 768px) {
+    button {
+        max-width: 32vw;
+    }
+} 
+
 .Home #title {
     grid-column: 3;
     grid-row: 1;
