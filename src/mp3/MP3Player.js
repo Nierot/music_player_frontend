@@ -22,17 +22,23 @@ export default class MP3Player extends React.Component {
   componentDidMount() {
 
     window.playerEvents.on('controllerPause', () => {
-      this.player.current.pause();
-      this.setState({
-        playing: false
-      })
+      if (!this.state.playing) {
+        this.player.current.play();
+        this.setState({ playing: true });
+      } else {
+        this.player.current.pause();
+        this.setState({ playing: false })
+      }
+
     })
 
     window.playerEvents.on('play', data => {
       if (data.type === 'mp3') {
         this.playSong(data.typeId);
+        this.setState({ playing: true });
       } else if (data.type === 'youtube') {
         this.playSong(data.typeId);
+        this.setState({ playing: true })
       } else {
         this.player.current.pause();
       }
