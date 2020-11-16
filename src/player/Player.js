@@ -10,10 +10,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { EventEmitter } from 'events';
 import AdtRadEvent from './events/AdtRadEvent';
+import ShotsEvent from './events/ShotsEvent';
+import EscalatieEvent from './events/EscalatieEvent';
+import WaterEvent from './events/WaterEvent';
 
 export default class Player extends React.Component {
 
-  EVENTS = [ 'adtrad' ];
+  EVENTS = [ 'shots', 'adtrad', 'Escalatie', 'water' ];
 
   constructor(props) {
     super(props);
@@ -46,7 +49,6 @@ export default class Player extends React.Component {
   async startPlaying() {
     this.getNextSong()
       .then(() => {
-        console.log(this.state.currentSong)
         this.setState({ playing: true })
         window.playerEvents.emit('play', this.state.currentSong);
       })
@@ -72,10 +74,14 @@ export default class Player extends React.Component {
             console.error('For some reason this songId is nonsense, playing next song', data);
             this.songFinished();
           } else {
+            if (data.type === 'event') {
+              data.song = {
+              }
+            }
             return data;
           }
         })
-        .then(data => this.setState({ currentSong: data.song, playing: true }))
+        .then(data => this.setState({ currentSong: data.song, playing: true, event: '' }))
         .then(resolve)
         .catch(reject)
     })
@@ -83,10 +89,9 @@ export default class Player extends React.Component {
   }
 
   async songFinished() {
-    console.log('song finished');
     await this.getNextSong()
       .then(() => {
-        console.log(this.state.currentSong)
+        console.log('finished')
         window.playerEvents.emit('play', this.state.currentSong);
       })
   }
@@ -97,18 +102,27 @@ export default class Player extends React.Component {
       console.log('skip');
       this.getNextSong()
         .then(() => {
-          this.setState({ playing: true });
           if (this.state.currentSong.type !== 'event') {
             window.playerEvents.emit('play', this.state.currentSong);
           } else {
-            console.log('event time');
             window.playerEvents.emit('stop');
-            this.setState({ event: 'event' })
+            this.setState({ event: this.EVENTS[Math.floor(Math.random() * this.EVENTS.length)] })
           }
         })
     });
     window.socket.on('previous', () => window.playerEvents.emit('controllerPrevious'));
     window.socket.on('code', code => this.setState({ playerCode: code }));
+
+    window.socket.on('whatAreYouPlaying', (data, callback) => {
+      if (this.state.currentSong && this.state.currentSong.type === 'event') {
+        callback({
+          title: this.state.event,
+          artist: 'Event'
+        })
+      } else {
+        callback(this.state.currentSong);
+      }
+    })
 
     window.playerEvents.on('finished', this.songFinished);
 
@@ -125,9 +139,8 @@ export default class Player extends React.Component {
       }
       return null 
     } else {
-      let event = this.EVENTS[Math.floor(Math.random() * this.EVENTS.length)]
       this.playerEvents.current.classList.remove('hidden');
-      switch(event) {
+      switch(this.state.event) {
         case 'adtrad':
           this.coverArt.current.classList.add('hidden');
           return <AdtRadEvent people={getQueryParam('listOfPeople').split(',')}/>
@@ -136,11 +149,13 @@ export default class Player extends React.Component {
         case 'cocktails':
           return <h1>cocktails</h1>
         case 'shots':
-          return <h1>shots</h1>
-        case 'escalatie':
-          return <h1>escalatie</h1>
+          return <ShotsEvent />
+        case 'Escalatie':
+          return <EscalatieEvent />
+        case 'water':
+          return <WaterEvent />
         default:
-          return <h1>Events broken lol</h1>
+          return null;
       }
     }
   }
@@ -160,12 +175,27 @@ export default class Player extends React.Component {
       length = Math.round(this.state.currentSong.length/1000);
       lengthString = parseTime(length);
       if (isNaN(length)) {
-        lengthString = '3:18';
+        switch (this.state.event) {
+          case 'adtrad':
+            lengthString = '3:18'
+            break;
+          case 'shots':
+            lengthString = '3:52';
+            break;
+          case 'Escalatie':
+            lengthString = '3:24';
+            break;
+          case 'water':
+            lengthString = '4:05';
+            break;
+          default:
+            break;
+        }
       }
       artist = this.state.currentSong.artist;
       songId = this.state.currentSong.songId;
     }
-    console.log(songId);
+    console.log('Render', this.state);
     return (
       <div className="Player">
         {this.state.playing ? null : 
