@@ -92,13 +92,8 @@ export default class SpotifyWebPlayback extends React.Component {
 
       // Socket.IO events
       window.playerEvents.on('controllerPause', data => {
-        if (!data.type === 'spotify') return;
         player.togglePlay().then(() => console.log('togglePlay'));
       })
-      window.playerEvents.on('controllerPrevious', data => {
-        if (!data.type === 'spotify') return;
-        player.previousTrack().then(() => console.log('previousTrack'));
-      });
       window.playerEvents.on('controllerSkip', data => {
         if (!data.type === 'spotify') return;
         player.nextTrack().then(() => console.log('nextTrack'));
