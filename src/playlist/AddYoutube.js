@@ -64,6 +64,8 @@ export default class AddYoutube extends React.Component {
           <YoutubePreview video={this.state.videoPreview} remove={this.removePreview} />
           :
           <div className="noPreview content">
+            WARNING: This is quite unstable and probably will not work <br />
+            Try using <a href="https://ytmp3.cc/">ytmp3.cc</a> and uploading as a mp3 <br />
             Fill in a YouTube ID/link below. <br />
             Examples: <br />
             <ul>
