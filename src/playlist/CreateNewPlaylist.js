@@ -1,6 +1,5 @@
 import React from 'react';
 import './CreateNewPlaylist.css';
-import $ from 'jquery';
 import { REST } from '../settings';
 import { Field, Formik, ErrorMessage, Form } from 'formik';
 
