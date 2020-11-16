@@ -9,11 +9,6 @@ export default class Home extends React.Component {
     return(
       <div className="Home">
         <div className="bold" id="title"><h1>Music player</h1></div>
-        {/* home
-        <a href="/player">Player</a><br/>
-        <a href="/controller">Controller</a><br/>
-        <a href="/playlist">Playlist</a><br/> */}
-        {/* <SpotifyAuthentication/> */}
         <Link className="Link" id="playlistButton" to="/playlist">
           <button className="button is-info">Play/edit a playlist</button>
         </Link>

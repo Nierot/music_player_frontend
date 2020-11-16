@@ -15,8 +15,8 @@ import MyLists from './playlist/MyLists';
 import AllLists from './playlist/AllLists';
 import LoadingScreen from './lib/LoadingScreen';
 import PlayPlaylist from './playlist/PlayPlaylist';
-import Particles from './player/events/Particles';
 import Home from './Home';
+import WaterEvent from './player/events/WaterEvent';
 
 class App extends React.Component {
 
@@ -35,7 +35,7 @@ class App extends React.Component {
       <div className="App">
         <Router>
           <Switch>
-            <Route path="/testComponent"> <Particles /> </Route>
+            <Route path="/testComponent"> <WaterEvent /> </Route>
             <Route path="/loading"> <LoadingScreen /> </Route>
             <Route path="/player"> <Player/> </Route>
             <Route path="/controller"> <Controller/> </Route>

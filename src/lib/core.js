@@ -78,3 +78,7 @@ export function splitList(results) {
 export function rand(min, max) {
   return Math.floor(Math.random() * (max + 1)) + min;
 }
+
+export function randomValueFromArray(array) {
+  return array[rand(0, array.length - 1)];
+}
