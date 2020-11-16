@@ -12,20 +12,20 @@ export default class ParticlesBackground extends React.Component {
         params={{
           particles: {
             number: {
-              value: 20
+              value: this.props.particles || 20
             },
             line_linked: {
               enable: false
             },
             move: {
-              speed: 10,
+              speed: this.props.speed || 10,
               out_mode: 'out'
             },
             shape: {
               type: [
                 'image'
               ],
-              image: [
+              image: this.props.image || [
                 {
                   src: "https://cdn.nierot.com/memes/beugel.svg",
                   height: 40,
@@ -44,7 +44,7 @@ export default class ParticlesBackground extends React.Component {
               ],
             },
             size: {
-              value: 50,
+              value: this.props.size || 50,
               random: false,
               anim: {
                 enable: false,
@@ -57,7 +57,7 @@ export default class ParticlesBackground extends React.Component {
               anim: {
                 enable: false
               },
-              value: 0.7
+              value: this.props.opacity || 0.7
             },
             retina_detect: true
           }
