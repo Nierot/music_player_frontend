@@ -1,0 +1,16 @@
+.WaterEvent .tsparticles-canvas-el {
+    z-index: 5;
+}
+
+.WaterEvent .waterForeground {
+    z-index: 10;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.WaterEvent img {
+    width: 1200px;
+}
