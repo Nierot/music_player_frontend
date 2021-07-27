@@ -1,0 +1,13 @@
+.OpusEvent {
+    z-index: 10;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.EscalatieEvent img {
+    height: 700px;
+    width: 700px;
+}

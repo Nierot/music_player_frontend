@@ -1,4 +1,4 @@
-import { REST } from '../settings';
+import { REFRESH_URL } from '../settings';
 
 export default function parseTime(time) {
     let seconds = time % 60;
@@ -49,23 +49,28 @@ export function getQueryParam(param) {
   return getQueryParams().get(param);
 }
 
-export async function refreshToken() {
+export async function refreshToken(refresh_token) {
 
-  await fetch(`${REST}refresh`, {
+  return new Promise(async (res, rej) => await fetch(REFRESH_URL, {
     method: 'POST',
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      refresh_token: JSON.parse(localStorage.getItem('spotifyAccess')).refresh_token
-    })
-  }).then(async data => {
-    let d = await data.json()
-    d.dateSet = new Date();
-    localStorage.setItem('spotifyAccess', JSON.stringify(d));
-    console.log(d);
+    body: JSON.stringify({ refresh_token })
   })
+  .then(data => data.json())
+  .then(data => {
+    if (data.error) {
+      console.log('Spotify refresh invalid', data);
+      rej(data);
+      localStorage.removeItem('spotifyAccess');
+    } else {
+      data.dateSet = new Date();
+      res(data.access_token);
+      localStorage.setItem('spotifyAccess', JSON.stringify(data));
+    }
+  }));
 }
 
 export function splitList(results) {
@@ -81,4 +86,29 @@ export function rand(min, max) {
 
 export function randomValueFromArray(array) {
   return array[rand(0, array.length - 1)];
+}
+
+export function shuffleArray(a) {
+  let j, x, i;
+  for (i = a.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      x = a[i];
+      a[i] = a[j];
+      a[j] = x;
+  }
+  return a;
+}
+/**
+ * Divide an array in two, selecting random values for the resulting two arrays
+ * @param {Array} array
+*/
+export function divideArrayInTwoRandomArrays(array) {
+  const shuffle = shuffleArray([...array])
+  let fst = shuffle
+  let snd = shuffle.splice(0, shuffle.length / 2)
+  return { fst, snd }
+}
+
+export function sleep(time) {
+  return new Promise((res, rej) => setTimeout(res, time))
 }

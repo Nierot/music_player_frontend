@@ -1,0 +1,25 @@
+.BierEstafette {
+    z-index: 10;
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+
+    grid-template-rows: 1fr 2fr 1fr;
+}
+
+.BierEstafette table, td {
+    border: 1px solid black;
+    text-align: center;
+}
+
+.BierEstafette h1 {
+    grid-row: 1;
+}
+
+.BierEstafette table {
+    grid-row: 2;
+}

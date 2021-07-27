@@ -1,67 +1,59 @@
 import React from 'react';
+import { getQueryParam, refreshToken } from '../lib/core';
+import { SPOTIFY_AUTH, REDIRECT_URI } from '../settings';
 
-import { base64urlencode, generateCodeVerifier, getQueryParam, sha256, refreshToken } from '../lib/core';
 
 export default class SpotifyAuthentication extends React.Component {
 
-  REDIRECT_URI = 'http://localhost:3000/'
-  CLIENT_ID = '5bf6a2aacb4d46e9bebec0f9453a7781'
-  SERVER_SIDE_VERIFICATION = 'http://localhost:8080/spotify'
-  SERVER_SIDE_REFRESH = 'http://localhost:8080/refresh'
+  CLIENT_ID = '5bf6a2aacb4d46e9bebec0f9453a7781';
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
     this.redirectToSpotify = this.redirectToSpotify.bind(this);
+    this.getAccessTokens = this.getAccessTokens.bind(this);
+    this.tokenChecker = this.tokenChecker.bind(this);
   }
 
-  async generateCodeChallenge() {
-    let codeVerifier = generateCodeVerifier();
-    localStorage.setItem('codeVerifier', codeVerifier)
-    let hashed = await sha256(codeVerifier);
-    let b64 = base64urlencode(hashed);
-    // localStorage.setItem('codeVerifier', b64);
-    return b64;
-  }
-
-  async generateSpotifyAuthorizationURI() {
-    console.log(localStorage.getItem('codeVerifier'));
+  generateAuthUrl() {
     return `https://accounts.spotify.com/authorize` +
-        `?client_id=${this.CLIENT_ID}` +
-        `&response_type=code` +
-        `&redirect_uri=${this.REDIRECT_URI}` +
-        `&code_challenge_method=S256` + 
-        `&code_challenge=${await this.generateCodeChallenge()}` +
-        `&scope=user-read-private%20streaming%20user-read-email`
+      `?client_id=${this.CLIENT_ID}` +
+      `&response_type=code` +
+      `&redirect_uri=${REDIRECT_URI}` +
+      `&scope=user-read-private%20streaming%20user-read-email`
   }
 
   async redirectToSpotify() {
-    window.location.replace(await this.generateSpotifyAuthorizationURI());
+    window.location.replace(this.generateAuthUrl());
   }
 
   async exchangeCodeForAccessToken() {
 
-    await fetch(this.SERVER_SIDE_VERIFICATION, {
+    fetch(SPOTIFY_AUTH, {
       method: 'POST',
-      mode: 'cors',
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json, text/plain, */*',
-        'Access-Control-Allow-Origin': '*'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         code: getQueryParam('code'),
-        code_verifier: localStorage.getItem('codeVerifier'),
-        redirect_uri: this.REDIRECT_URI
+        redirect_uri: REDIRECT_URI
       })
-    }).then(async data => {
-      localStorage.setItem('spotifyAccess', JSON.stringify(await data.json()))
-      window.spotifyAccessTokenInterval = setInterval(() => refreshToken(), 3500000);
-    });
+    })
+    .then(data => data.json())
+    .then(data => {
+      data.dateSet = new Date();
+      localStorage.setItem('spotifyRefreshToken', data.refresh_token);
+      localStorage.setItem('spotifyAccess', JSON.stringify(data));
+    })
+    .catch(console.error)
   }
-
 
   getAccessTokens() {
     return JSON.parse(localStorage.getItem('spotifyAccess'));
+  }
+
+  getRefreshToken() {
+    return localStorage.getItem('spotifyRefreshToken');
   }
   
 
@@ -71,15 +63,31 @@ export default class SpotifyAuthentication extends React.Component {
       window.history.replaceState({}, null, window.location.href.split('?')[0])
     }
 
-    if (this.getAccessTokens() != null) {
-      if (new Date(this.getAccessTokens().dateSet).getTime() + 3500000 <= new Date().getTime()) {
+    // Check if token has expired;
+    if (localStorage.getItem('spotifyAccess') != null) {
+      let token = this.getAccessTokens();
+      let refresh = this.getRefreshToken();
+      if (token.access_token === undefined || refresh === undefined) {
+        console.log('token invalid, purging')
+        localStorage.removeItem('spotifyAccess');
+      } else if (new Date(token.dateSet).getTime() + 3600000 <= new Date().getTime()) {
         console.log('Spotify tokens expired, purging');
         localStorage.removeItem('spotifyAccess');
-        clearInterval(window.spotifyAccessTokenInterval);
+      } else {
+        // Token still valid;
+        window.spotifyTokenInterval = setInterval(this.tokenChecker, 60*1000);
       }
     }
+  }
 
-    window.refreshToken = refreshToken;
+  tokenChecker() {
+    if (!this.getAccessTokens()) return;
+    const { dateSet } = this.getAccessTokens();
+    const refresh_token = this.getRefreshToken();
+
+    if (new Date(dateSet).getTime() + 20*60*1000 <= new Date().getTime()) { // If token is 20 minutes old
+      refreshToken(refresh_token);
+    }
   }
 
   render() {

@@ -5,10 +5,10 @@ import './WaterEvent.css';
 export default class WaterEvent extends React.Component {
   
   componentDidMount() {
-    // Play Taio Cruz - Hangover
+    // Play In Flames - Only for the Weak
     window.playerEvents.emit('play', {
       type: 'spotify',
-      typeId: 'spotify:track:5pmL3RzOy3IvGFaSDi4hZL'
+      typeId: 'spotify:track:0JBQnLKfLXmlkquabLtAgd'
     })
   }
 

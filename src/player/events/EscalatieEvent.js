@@ -7,7 +7,9 @@ export default class EscalatieEvent extends React.Component {
   
   ESCALATIE_SONGS = [
     'spotify:track:0yrbQBBDM453xkKItntXnb',
-    'spotify:track:72lQhFytmSrEVWBiYUWkcR'
+    'spotify:track:72lQhFytmSrEVWBiYUWkcR',
+    'spotify:track:0aFvgY6uNCTr1sZlJlJ9Yd',
+    'spotify:track:3v2oAQomhOcYCPPHafS3KV'
   ]
 
   componentDidMount() {
